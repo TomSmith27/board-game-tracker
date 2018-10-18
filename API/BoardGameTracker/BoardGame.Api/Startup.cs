@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BoardGame.Api.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,7 @@ namespace BoardGame.Api
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+            services.AddEntityFrameworkSqlite().AddDbContext<BoardGameContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
