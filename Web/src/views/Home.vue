@@ -53,10 +53,10 @@ export default Vue.extend({
     searchForGames: _.debounce(async function(this: any) {
       this.searching = true;
       try {
-        var result = await BoardGameService.get(`search?search=${this.search}`);
+        const result = await BoardGameService.get(`search?search=${this.search}`);
         this.boardGames = result.data.boardgames;
       } catch (e) {
-        if (e.message == 'Network Error') {
+        if (e.message === 'Network Error') {
           this.searchError = 'Network Error';
         }
       }
