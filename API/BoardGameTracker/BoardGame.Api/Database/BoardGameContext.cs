@@ -8,7 +8,7 @@ namespace BoardGame.Api.Database
     {
         public BoardGameContext(DbContextOptions<BoardGameContext> options) : base(options) { }
 
-        public DbSet<BoardGame> BoardGames { get; set; }
+        public DbSet<BoardGameEntry> BoardGames { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

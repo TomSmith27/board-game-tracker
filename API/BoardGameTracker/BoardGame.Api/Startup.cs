@@ -1,7 +1,9 @@
-﻿using BoardGame.Api.Database;
+﻿using BggApi.Service;
+using BoardGame.Api.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -33,6 +35,11 @@ namespace BoardGame.Api
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
+
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+            services.AddScoped<IBggService, BggService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

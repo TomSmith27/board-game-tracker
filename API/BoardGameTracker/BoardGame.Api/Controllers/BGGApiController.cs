@@ -1,51 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace BoardGame.Api.Controllers
 {
-    using Dto;
+    using BggApi.Service;
 
     [Route("api/bgg")]
     [ApiController]
     public class BGGApiController : ControllerBase
     {
-        private HttpClient client = new HttpClient();
+        private readonly IBggService bggService;
 
-        public BGGApiController()
+        public BGGApiController(IBggService bggService)
         {
-            this.client.BaseAddress = new Uri("https://www.boardgamegeek.com/xmlapi/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            this.bggService = bggService;
+        }
+
+        [HttpGet("{objectId:int}")]
+        public async Task<IActionResult> Get(int objectId)
+        {
+            try
+            {
+                var boardGame = await this.bggService.Get(objectId);
+                //return this.Ok(result);
+                return this.Ok(boardGame);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+
         }
 
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<string>>> Search(string search)
+        public async Task<IActionResult> Search(string search, bool exact = false)
         {
-            var result = await this.client.GetAsync($"search?search={search}");
-            if(result.StatusCode == HttpStatusCode.OK)
+            try
             {
-                using (var stream = new MemoryStream(await result.Content.ReadAsByteArrayAsync()))
-                {
-                    var serializer = new XmlSerializer(typeof(BoardgameSearchResult));
-                    var boardGames = (BoardgameSearchResult)serializer.Deserialize(stream);
-                    return this.Ok(boardGames);
-                    //then do whatever you want
-                }
+                var result = await this.bggService.Search(search, exact);
+                return this.Ok(result);
             }
-            
-            return this.BadRequest();
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
+
         }
     }
 }

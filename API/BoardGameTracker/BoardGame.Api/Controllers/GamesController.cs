@@ -1,4 +1,5 @@
 ﻿using BoardGame.Api.Database;
+using BoardGame.Api.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -15,11 +16,16 @@ namespace BoardGame.Api.Controllers
             this.db = db;
         }
 
-        [HttpGet]
-        [Route("")]
+        [HttpGet("")]
         public IActionResult Get()
         {
             return this.Ok(this.db.BoardGames.ToList());
+        }
+
+        [HttpPost("")]
+        public IActionResult Create(BgObject bgObject)
+        {
+            return this.Ok(bgObject.ObjectId);
         }
     }
 }
