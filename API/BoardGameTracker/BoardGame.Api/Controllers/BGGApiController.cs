@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using BoardGame.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace BoardGame.Api.Controllers
 {
+    using Dto;
+
     [Route("api/bgg")]
     [ApiController]
     public class BGGApiController : ControllerBase

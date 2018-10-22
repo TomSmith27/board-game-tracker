@@ -1,8 +1,8 @@
-﻿namespace BoardGame.Api.Models
+﻿namespace BoardGame.Api.Dto
 {
-    using System.Xml.Serialization;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
 
     [XmlRoot(ElementName = "name")]
     public class Name
