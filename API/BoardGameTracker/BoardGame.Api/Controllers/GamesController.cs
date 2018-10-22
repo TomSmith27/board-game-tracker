@@ -14,6 +14,8 @@ namespace BoardGame.Api.Controllers
         {
             this.db = db;
         }
+
+        [HttpGet]
         [Route("")]
         public IActionResult Get()
         {

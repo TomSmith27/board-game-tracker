@@ -21,7 +21,7 @@ namespace BoardGame.Api.Database
 
         public string Name { get; set; }
 
-        public DateTimeOffset Yearpublished { get; set; }
+        public DateTimeOffset YearPublished { get; set; }
 
         public string Objectid { get; set; }
     }
