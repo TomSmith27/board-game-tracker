@@ -18,6 +18,11 @@
                                                 <v-icon>people</v-icon> {{game.minPlayers}} - {{game.maxPlayers}}
                                             </span>
                                         </div>
+                                        <div>
+                                            <span>
+                                                <v-icon>alarm</v-icon> {{game.minPlaytime}}" - {{game.maxPlaytime}}"
+                                            </span>
+                                        </div>
                                     </div>
                                 </v-flex>
 

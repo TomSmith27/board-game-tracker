@@ -15,9 +15,9 @@ namespace BggApi.Dto
         [XmlElement(ElementName = "playingtime")]
         public string Playingtime { get; set; }
         [XmlElement(ElementName = "minplaytime")]
-        public string Minplaytime { get; set; }
+        public int Minplaytime { get; set; }
         [XmlElement(ElementName = "maxplaytime")]
-        public string Maxplaytime { get; set; }
+        public int Maxplaytime { get; set; }
         [XmlElement(ElementName = "age")]
         public string Age { get; set; }
         [XmlElement(ElementName = "name")]

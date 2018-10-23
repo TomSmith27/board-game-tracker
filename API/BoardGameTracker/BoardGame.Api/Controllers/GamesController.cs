@@ -38,6 +38,8 @@ namespace BoardGame.Api.Controllers
                 Thumbnail = game.Thumbnail,
                 MinPlayers = game.Minplayers,
                 MaxPlayers = game.Maxplayers,
+                MinPlaytime = game.Minplaytime,
+                MaxPlaytime = game.Maxplaytime,
                 Image = game.Image,
                 ObjectId = game.Objectid
             });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..."></v-text-field>
+    <v-text-field v-model="search" append-icon="search" solo single-line placeholder="Search..." v-on:keyup.enter="fastSearch"></v-text-field>
     <v-progress-circular v-if="searching" :size="50" color="primary" indeterminate></v-progress-circular>
     <v-alert :value="searchError" type="error">
       {{searchError}}
@@ -51,7 +51,10 @@ export default Vue.extend({
     boardGames: []
   }),
   methods: {
-    searchForGames: _.debounce(async function(this: any) {
+    slowSearch: _.debounce(async function(this: any) {
+      this.search();
+    }, 2000),
+    async fastSearch() {
       this.searching = true;
       try {
         const result = await boardGameService.get(
@@ -64,7 +67,7 @@ export default Vue.extend({
         }
       }
       this.searching = false;
-    }, 2000),
+    },
     importGame(objectid: number) {
       boardGameService
         .post('games', {
@@ -78,7 +81,7 @@ export default Vue.extend({
   watch: {
     async search() {
       if (this.search.length > 2) {
-        this.searchForGames();
+        this.slowSearch();
       }
     }
   }
