@@ -7,7 +7,7 @@
             <v-icon>home</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
+            <router-link :to="{name : 'home'}">Search</router-link>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="">
@@ -15,7 +15,9 @@
             <v-icon>contact_mail</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
+            <v-list-tile-title>
+              <router-link :to="{name : 'games'}">Games</router-link>
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>

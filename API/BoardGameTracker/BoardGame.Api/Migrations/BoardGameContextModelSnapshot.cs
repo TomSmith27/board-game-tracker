@@ -19,7 +19,22 @@ namespace BoardGame.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BoardGame.Api.Models.BoardGame", b =>
+            modelBuilder.Entity("BoardGame.Api.Models.BoardGameCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ObjectId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BoardGameCategory");
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.BoardGameEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +58,7 @@ namespace BoardGame.Api.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Objectid");
+                    b.Property<int>("ObjectId");
 
                     b.Property<int>("PlayingTime");
 
@@ -58,22 +73,7 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("BoardGames");
                 });
 
-            modelBuilder.Entity("BoardGame.Api.Models.BoardGameCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("ObjectId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BoardGameCategory");
-                });
-
-            modelBuilder.Entity("BoardGame.Api.Models.BoardGame", b =>
+            modelBuilder.Entity("BoardGame.Api.Models.BoardGameEntry", b =>
                 {
                     b.HasOne("BoardGame.Api.Models.BoardGameCategory", "Category")
                         .WithMany()

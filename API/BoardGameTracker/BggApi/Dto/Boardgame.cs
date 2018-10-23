@@ -11,7 +11,7 @@ namespace BggApi.Dto
         [XmlElement(ElementName = "minplayers")]
         public int Minplayers { get; set; }
         [XmlElement(ElementName = "maxplayers")]
-        public string Maxplayers { get; set; }
+        public int Maxplayers { get; set; }
         [XmlElement(ElementName = "playingtime")]
         public string Playingtime { get; set; }
         [XmlElement(ElementName = "minplaytime")]

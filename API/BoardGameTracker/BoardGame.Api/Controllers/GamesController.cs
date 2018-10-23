@@ -1,7 +1,10 @@
-﻿using BoardGame.Api.Database;
+﻿using BggApi.Service;
+using BoardGame.Api.Database;
 using BoardGame.Api.Dto;
+using BoardGame.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BoardGame.Api.Controllers
 {
@@ -9,11 +12,13 @@ namespace BoardGame.Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private BoardGameContext db;
+        private readonly BoardGameContext db;
+        private readonly IBggService bggService;
 
-        public GamesController(BoardGameContext db)
+        public GamesController(BoardGameContext db, IBggService bggService)
         {
             this.db = db;
+            this.bggService = bggService;
         }
 
         [HttpGet("")]
@@ -23,9 +28,32 @@ namespace BoardGame.Api.Controllers
         }
 
         [HttpPost("")]
-        public IActionResult Create(BgObject bgObject)
+        public async Task<IActionResult> Create(BgObject bgObject)
         {
+            var game = await this.bggService.Get(bgObject.ObjectId);
+
+            this.db.BoardGames.Add(new BoardGameEntry()
+            {
+                Name = game.Name.Single(n => n.Primary).Text,
+                Thumbnail = game.Thumbnail,
+                MinPlayers = game.Minplayers,
+                MaxPlayers = game.Maxplayers,
+                Image = game.Image,
+                ObjectId = game.Objectid
+            });
+
+            this.db.SaveChanges();
+
             return this.Ok(bgObject.ObjectId);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            this.db.BoardGames.Remove(this.db.BoardGames.Single(b => b.Id == id));
+            this.db.SaveChanges();
+
+            return this.Ok();
         }
     }
 }

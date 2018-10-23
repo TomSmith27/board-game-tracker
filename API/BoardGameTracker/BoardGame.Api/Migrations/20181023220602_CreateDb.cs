@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BoardGame.Api.Migrations
 {
-    public partial class InitalMigration : Migration
+    public partial class CreateDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace BoardGame.Api.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Objectid = table.Column<string>(nullable: true),
+                    ObjectId = table.Column<int>(nullable: false),
                     YearPublished = table.Column<DateTimeOffset>(nullable: false),
                     MinPlayers = table.Column<int>(nullable: false),
                     MaxPlayers = table.Column<int>(nullable: false),

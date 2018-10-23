@@ -11,7 +11,7 @@
           <v-card>
             <v-card-title primary-title>
               <div>
-                <h3 class="headline mb-0">{{game.name.text}}</h3>
+                <h3 class="headline mb-0">{{game.name[0].text}}</h3>
               </div>
             </v-card-title>
             <v-card-text>
@@ -25,6 +25,9 @@
                 </v-list-tile-content>
               </v-list-tile>
             </v-card-text>
+            <v-card-actions>
+              <v-btn flat @click="importGame(game.objectid)">Import</v-btn>
+            </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
@@ -34,15 +37,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import axios from 'axios';
 import _ from 'lodash';
-import { BoardGameService } from '../axios-service';
+import { boardGameService } from '../axios-service';
+import router from '@/router';
 export default Vue.extend({
   name: 'home',
-  components: {
-    HelloWorld
-  },
+  components: {},
   data: () => ({
     search: '',
     searching: false,
@@ -53,7 +54,9 @@ export default Vue.extend({
     searchForGames: _.debounce(async function(this: any) {
       this.searching = true;
       try {
-        const result = await BoardGameService.get(`search?search=${this.search}`);
+        const result = await boardGameService.get(
+          `bgg/search?search=${this.search}`
+        );
         this.boardGames = result.data.boardgames;
       } catch (e) {
         if (e.message === 'Network Error') {
@@ -61,7 +64,16 @@ export default Vue.extend({
         }
       }
       this.searching = false;
-    }, 2000)
+    }, 2000),
+    importGame(objectid: number) {
+      boardGameService
+        .post('games', {
+          objectid
+        })
+        .then(response => {
+          router.push('games');
+        });
+    }
   },
   watch: {
     async search() {
