@@ -41,19 +41,19 @@ namespace BggApi.Dto
         [XmlElement(ElementName = "boardgameaccessory")]
         public List<Boardgameaccessory> Boardgameaccessory { get; set; }
         [XmlElement(ElementName = "boardgameversion")]
-        public List<Boardgameversion> Boardgameversion { get; set; }
+        public List<BoardameVersion> Boardgameversion { get; set; }
         [XmlElement(ElementName = "boardgamefamily")]
-        public List<Boardgamefamily> Boardgamefamily { get; set; }
+        public List<BoardgameFamily> Boardgamefamily { get; set; }
         [XmlElement(ElementName = "boardgamecategory")]
-        public List<Boardgamecategory> Boardgamecategory { get; set; }
+        public List<BoardgameCategory> Boardgamecategory { get; set; }
         [XmlElement(ElementName = "boardgamedesigner")]
-        public Boardgamedesigner Boardgamedesigner { get; set; }
+        public BoardgameDesigner Boardgamedesigner { get; set; }
         [XmlElement(ElementName = "boardgameartist")]
-        public List<Boardgameartist> Boardgameartist { get; set; }
+        public List<BoardgameArtist> Boardgameartist { get; set; }
         [XmlElement(ElementName = "boardgamesubdomain")]
-        public List<Boardgamesubdomain> Boardgamesubdomain { get; set; }
+        public List<BoardgameSubdomain> Boardgamesubdomain { get; set; }
         [XmlElement(ElementName = "boardgameimplementation")]
-        public Boardgameimplementation Boardgameimplementation { get; set; }
+        public BoardgameImplementation Boardgameimplementation { get; set; }
         [XmlElement(ElementName = "poll")]
         public List<Poll> Poll { get; set; }
         [XmlElement(ElementName = "statistics")]
