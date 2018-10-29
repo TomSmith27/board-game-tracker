@@ -31,7 +31,7 @@ namespace BoardGame.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BoardGameCategory");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.BoardGameEntry", b =>
@@ -42,7 +42,9 @@ namespace BoardGame.Api.Migrations
 
                     b.Property<int>("Age");
 
-                    b.Property<int?>("CategoryId");
+                    b.Property<double>("AverageRating");
+
+                    b.Property<string>("BestPlayerCount");
 
                     b.Property<string>("Description");
 
@@ -64,20 +66,39 @@ namespace BoardGame.Api.Migrations
 
                     b.Property<string>("Thumbnail");
 
+                    b.Property<int>("UsersRated");
+
                     b.Property<DateTimeOffset>("YearPublished");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("BoardGames");
+                    b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("BoardGame.Api.Models.BoardGameEntry", b =>
+            modelBuilder.Entity("BoardGame.Api.Models.GameCategoryGameEntry", b =>
                 {
-                    b.HasOne("BoardGame.Api.Models.BoardGameCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                    b.Property<int>("BoardGameCategoryId");
+
+                    b.Property<int>("BoardGameEntryId");
+
+                    b.HasKey("BoardGameCategoryId", "BoardGameEntryId");
+
+                    b.HasIndex("BoardGameEntryId");
+
+                    b.ToTable("GameCategoryGameEntry");
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.GameCategoryGameEntry", b =>
+                {
+                    b.HasOne("BoardGame.Api.Models.BoardGameCategory", "BoardGameCategory")
+                        .WithMany("Games")
+                        .HasForeignKey("BoardGameCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BoardGame.Api.Models.BoardGameEntry", "BoardGameEntry")
+                        .WithMany("Categories")
+                        .HasForeignKey("BoardGameEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

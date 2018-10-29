@@ -19,7 +19,7 @@ namespace BggApi.Dto
         [XmlElement(ElementName = "maxplaytime")]
         public int Maxplaytime { get; set; }
         [XmlElement(ElementName = "age")]
-        public string Age { get; set; }
+        public int Age { get; set; }
         [XmlElement(ElementName = "name")]
         public List<Name> Name { get; set; }
         [XmlElement(ElementName = "description")]

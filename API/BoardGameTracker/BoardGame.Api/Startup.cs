@@ -10,6 +10,8 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace BoardGame.Api
 {
+    using Microsoft.EntityFrameworkCore;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -40,6 +42,8 @@ namespace BoardGame.Api
 
             services.AddScoped<IBggService, BggService>();
 
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +56,14 @@ namespace BoardGame.Api
             else
             {
                 app.UseHsts();
+            }
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<BoardGameContext>())
+                {
+                    context.Database.Migrate();
+                }
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

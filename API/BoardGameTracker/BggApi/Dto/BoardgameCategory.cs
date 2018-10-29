@@ -6,7 +6,7 @@ namespace BggApi.Dto
     public class BoardgameCategory
     {
         [XmlAttribute(AttributeName = "objectid")]
-        public string Objectid { get; set; }
+        public int Objectid { get; set; }
         [XmlText]
         public string Text { get; set; }
     }

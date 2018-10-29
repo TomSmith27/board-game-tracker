@@ -13,7 +13,7 @@ namespace BggApi.Dto
         [XmlAttribute(AttributeName = "title")]
         public string Title { get; set; }
         [XmlAttribute(AttributeName = "totalvotes")]
-        public string Totalvotes { get; set; }
+        public string TotalVotes { get; set; }
     }
 
 }

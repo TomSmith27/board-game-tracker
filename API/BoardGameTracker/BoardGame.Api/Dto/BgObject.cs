@@ -8,6 +8,5 @@ namespace BoardGame.Api.Dto
     public class BgObject
     {
         public int ObjectId { get; set; }
-        public string Name { get; set; }
     }
 }

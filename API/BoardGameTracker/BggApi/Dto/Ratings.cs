@@ -6,9 +6,9 @@ namespace BggApi.Dto
     public class Ratings
     {
         [XmlElement(ElementName = "usersrated")]
-        public string Usersrated { get; set; }
+        public int Usersrated { get; set; }
         [XmlElement(ElementName = "average")]
-        public string Average { get; set; }
+        public double Average { get; set; }
         [XmlElement(ElementName = "bayesaverage")]
         public string Bayesaverage { get; set; }
         [XmlElement(ElementName = "ranks")]

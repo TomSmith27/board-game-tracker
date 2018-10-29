@@ -7,6 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181025145454_CreateDb.cs" />
+    <Compile Remove="Migrations\20181025145454_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029102452_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029102452_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029102621_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029102621_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029102818_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029102818_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029111646_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029111646_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029130308_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029130308_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181029130350_CreateDb.cs" />
+    <Compile Remove="Migrations\20181029130350_CreateDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

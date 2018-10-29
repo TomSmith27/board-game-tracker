@@ -8,7 +8,7 @@ namespace BggApi.Dto
         [XmlAttribute(AttributeName = "value")]
         public string Value { get; set; }
         [XmlAttribute(AttributeName = "numvotes")]
-        public string Numvotes { get; set; }
+        public int Numvotes { get; set; }
         [XmlAttribute(AttributeName = "level")]
         public string Level { get; set; }
     }
