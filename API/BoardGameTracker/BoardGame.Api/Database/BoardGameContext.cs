@@ -10,6 +10,8 @@ namespace BoardGame.Api.Database
 
         public DbSet<BoardGameEntry> Games { get; set; }
         public DbSet<BoardGameCategory> Categories { get; set; }
+        public DbSet<GamePlaySession> GamePlaySessions { get; set; }
+        public DbSet<Player> Players { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,12 +21,14 @@ namespace BoardGame.Api.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GameCategoryGameEntry>()
-                .HasKey(t => new { t.BoardGameCategoryId, t.BoardGameEntryId});
+                .HasKey(t => new { t.BoardGameCategoryId, t.BoardGameEntryId });
 
             modelBuilder.Entity<BoardGameEntry>()
                 .HasMany(nv => nv.Categories);
 
             modelBuilder.Entity<BoardGameCategory>().HasMany(b => b.Games);
+
+            modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GamePlayerSessionId, p.PlayerId });
         }
     }
 }

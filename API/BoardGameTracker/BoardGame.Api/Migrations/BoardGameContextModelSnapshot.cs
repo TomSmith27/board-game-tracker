@@ -88,6 +88,55 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("GameCategoryGameEntry");
                 });
 
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("Date");
+
+                    b.Property<int>("GameId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("GamePlaySessions");
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+                {
+                    b.Property<int>("GamePlayerSessionId");
+
+                    b.Property<int>("PlayerId");
+
+                    b.Property<int?>("GamePlaySessionId");
+
+                    b.Property<int>("Rating");
+
+                    b.HasKey("GamePlayerSessionId", "PlayerId");
+
+                    b.HasIndex("GamePlaySessionId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("PlayerRating");
+                });
+
             modelBuilder.Entity("BoardGame.Api.Models.GameCategoryGameEntry", b =>
                 {
                     b.HasOne("BoardGame.Api.Models.BoardGameCategory", "BoardGameCategory")
@@ -98,6 +147,26 @@ namespace BoardGame.Api.Migrations
                     b.HasOne("BoardGame.Api.Models.BoardGameEntry", "BoardGameEntry")
                         .WithMany("Categories")
                         .HasForeignKey("BoardGameEntryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySession", b =>
+                {
+                    b.HasOne("BoardGame.Api.Models.BoardGameEntry", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+                {
+                    b.HasOne("BoardGame.Api.Models.GamePlaySession", "GamePlaySession")
+                        .WithMany("PlayerRatings")
+                        .HasForeignKey("GamePlaySessionId");
+
+                    b.HasOne("BoardGame.Api.Models.Player", "Player")
+                        .WithMany("Ratings")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
