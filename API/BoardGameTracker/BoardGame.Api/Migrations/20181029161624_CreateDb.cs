@@ -113,7 +113,7 @@ namespace BoardGame.Api.Migrations
                     PlayerId = table.Column<int>(nullable: false),
                     GamePlaySessionId = table.Column<int>(nullable: true),
                     GamePlayerSessionId = table.Column<int>(nullable: false),
-                    Rating = table.Column<int>(nullable: false)
+                    Rating = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

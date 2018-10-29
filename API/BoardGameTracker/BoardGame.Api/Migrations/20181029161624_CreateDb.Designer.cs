@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGame.Api.Migrations
 {
     [DbContext(typeof(BoardGameContext))]
-    [Migration("20181029152108_CreateDb")]
+    [Migration("20181029161624_CreateDb")]
     partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,7 +128,7 @@ namespace BoardGame.Api.Migrations
 
                     b.Property<int?>("GamePlaySessionId");
 
-                    b.Property<int>("Rating");
+                    b.Property<int?>("Rating");
 
                     b.HasKey("GamePlayerSessionId", "PlayerId");
 

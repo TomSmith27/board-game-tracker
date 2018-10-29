@@ -126,7 +126,7 @@ namespace BoardGame.Api.Migrations
 
                     b.Property<int?>("GamePlaySessionId");
 
-                    b.Property<int>("Rating");
+                    b.Property<int?>("Rating");
 
                     b.HasKey("GamePlayerSessionId", "PlayerId");
 
