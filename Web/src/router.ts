@@ -28,9 +28,10 @@ export default new Router({
       component: GameSessionList
     },
     {
-      path: '/game-session/create',
+      path: '/game-session/create/:gameId?',
       name: 'game-session-create',
-      component: GameSessionCreate
+      component: GameSessionCreate,
+      props: true
     },
     {
       path: '/game-session/:id',

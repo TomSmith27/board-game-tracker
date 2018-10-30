@@ -2,7 +2,7 @@
     <div>
         <h1>Imported Games</h1>
         <v-container grid-list-md text-xs-center>
-            <v-layout row wrap fill-height>
+            <v-layout row wrap>
                 <v-flex :key="game.objectId" v-for="game in games" xs12 md6 lg4>
                     <v-card>
                         <v-container fluid grid-list-lg>
@@ -30,6 +30,7 @@
                         </v-container>
                         <v-card-actions>
                             <v-btn @click="deleteGame(game.id)" color="error">Delete</v-btn>
+                            <v-btn :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">Create Session</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>

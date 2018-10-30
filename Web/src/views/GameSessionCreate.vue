@@ -16,6 +16,11 @@ import Vue from 'vue';
 import { boardGameService } from '@/axios-service';
 export default Vue.extend({
   name: 'GameSessionCreate',
+  props: {
+    gameId: {
+      type: Number
+    }
+  },
   data: () => ({
     isLoading: true,
     games: [],
@@ -29,7 +34,11 @@ export default Vue.extend({
     try {
       this.games = (await boardGameService.get('games')).data;
       this.players = (await boardGameService.get('player')).data;
+      if (this.gameId) {
+        this.selectedGame = this.gameId;
+      }
     } catch (error) {}
+
     this.isLoading = false;
   },
   methods: {
