@@ -2,6 +2,9 @@
     <div>
         <h1>Imported Games</h1>
         <v-container grid-list-md text-xs-center>
+            <v-alert :value="error" type="error">
+                {{error}}
+            </v-alert>
             <v-layout row wrap>
                 <v-flex :key="game.objectId" v-for="game in games" xs12 md6 lg4>
                     <v-card>
@@ -31,6 +34,9 @@
                         <v-card-actions>
                             <v-btn @click="deleteGame(game.id)" color="error">Delete</v-btn>
                             <v-btn :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">Create Session</v-btn>
+                            <v-btn :href="`https://boardgamegeek.com/boardgame/${game.objectId}`" color="secondary">
+                                BGG Link
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -45,16 +51,19 @@ import { boardGameService } from '@/axios-service';
 export default Vue.extend({
   name: 'GameList',
   data: () => ({
-    games: null
+    games: null,
+    error: ''
   }),
   created() {
     this.getGames();
   },
   methods: {
-    getGames() {
-      boardGameService.get('games').then(response => {
-        this.games = response.data;
-      });
+    async getGames() {
+      try {
+        this.games = (await boardGameService.get('games')).data;
+      } catch (error) {
+        this.error = error;
+      }
     },
     deleteGame(id: number) {
       boardGameService.delete(`games/${id}`).then(response => {
