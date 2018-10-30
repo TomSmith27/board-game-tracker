@@ -17,10 +17,10 @@
             this.db = db;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> Rate(int gamePlayerSessionId, int playerId, CreateRatingDto ratingDto)
+        [HttpPost("gameplay-session/{gamePlaySessionId:int}/player/{playerId:int}")]
+        public async Task<IActionResult> Rate(int gamePlaySessionId, int playerId, CreateRatingDto ratingDto)
         {
-            var rating = await this.db.Ratings.SingleAsync(r => r.GamePlayerSessionId == gamePlayerSessionId && r.PlayerId == playerId);
+            var rating = await this.db.Ratings.SingleAsync(r => r.GamePlaySessionId == gamePlaySessionId && r.PlayerId == playerId);
             rating.Rating = ratingDto.Rating;
 
 

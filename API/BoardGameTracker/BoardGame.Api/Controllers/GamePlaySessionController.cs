@@ -20,7 +20,7 @@
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Get()
         {
             var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
                 .Include(g => g.PlayerRatings).ToList();
@@ -30,6 +30,17 @@
                 gamePlaySessionDtos.Add(new GamePlaySessionDto(game));
             }
             return this.Ok(gamePlaySessionDtos);
+        }
+
+        [HttpGet("{sessionId:int}")]
+        public IActionResult Get(int sessionId)
+        {
+            var gamePlaySession = this.db.GamePlaySessions
+                .Include(g => g.Game)
+                .Include(g => g.PlayerRatings).ThenInclude(p => p.Player)
+                .Single(g => g.Id == sessionId);
+
+            return this.Ok(new GamePlaySessionDetailsDto(gamePlaySession));
         }
 
         [HttpPost("")]
@@ -44,10 +55,11 @@
                 }
             }
 
-            db.GamePlaySessions.Add(gameSession.ToModel());
+            var session = gameSession.ToModel();
+            db.GamePlaySessions.Add(session);
             db.SaveChanges();
 
-            return this.Ok();
+            return this.Ok(session.Id);
         }
     }
 }

@@ -1,16 +1,24 @@
 <template>
-    <div>
-        <h1>Game Sessions</h1>
-        <template>
-            <v-data-table :headers="headers" :items="gameSessions" hide-actions class="elevation-1">
-                <template slot="items" slot-scope="props">
-                    <td>{{ props.item.gameName }}</td>
-                    <td>{{ props.item.date | date}}</td>
-                    <td>{{ props.item.ratings.length }}</td>
-                </template>
-            </v-data-table>
+  <div>
+    <h1>Game Sessions</h1>
+    <router-link :to="{name : 'game-session-create'}">
+      <v-btn color="primary">
+        New
+      </v-btn>
+    </router-link>
+    <template>
+      <v-data-table :headers="headers" :items="gameSessions" hide-actions class="elevation-1">
+        <template slot="items" slot-scope="props">
+          <td>
+            <router-link :to="{name : 'game-session-detail', params : {id : props.item.id}}">{{ props.item.gameName }}</router-link>
+
+          </td>
+          <td>{{ props.item.date | date}}</td>
+          <td>{{ props.item.ratings.length }}</td>
         </template>
-    </div>
+      </v-data-table>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">

@@ -2,8 +2,8 @@
     <div>
         <h1>Imported Games</h1>
         <v-container grid-list-md text-xs-center>
-            <v-layout row wrap>
-                <v-flex :key="game.objectId" v-for="game in games" xs4>
+            <v-layout row wrap fill-height>
+                <v-flex :key="game.objectId" v-for="game in games" xs12 md6 lg4>
                     <v-card>
                         <v-container fluid grid-list-lg>
                             <v-layout row>

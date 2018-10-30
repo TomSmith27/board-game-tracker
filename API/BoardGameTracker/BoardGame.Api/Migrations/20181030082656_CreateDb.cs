@@ -111,19 +111,18 @@ namespace BoardGame.Api.Migrations
                 columns: table => new
                 {
                     PlayerId = table.Column<int>(nullable: false),
-                    GamePlaySessionId = table.Column<int>(nullable: true),
-                    GamePlayerSessionId = table.Column<int>(nullable: false),
+                    GamePlaySessionId = table.Column<int>(nullable: false),
                     Rating = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ratings", x => new { x.GamePlayerSessionId, x.PlayerId });
+                    table.PrimaryKey("PK_Ratings", x => new { x.GamePlaySessionId, x.PlayerId });
                     table.ForeignKey(
                         name: "FK_Ratings_GamePlaySessions_GamePlaySessionId",
                         column: x => x.GamePlaySessionId,
                         principalTable: "GamePlaySessions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Players_PlayerId",
                         column: x => x.PlayerId,
@@ -131,6 +130,31 @@ namespace BoardGame.Api.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Games",
+                columns: new[] { "Id", "Age", "AverageRating", "BestPlayerCount", "Description", "Image", "MaxPlayers", "MaxPlaytime", "MinPlayers", "MinPlaytime", "Name", "ObjectId", "PlayingTime", "Thumbnail", "UsersRated", "YearPublished" },
+                values: new object[] { 1, 0, 0.0, null, null, null, 0, 0, 0, 0, "Azul", 0, 0, null, 0, new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)) });
+
+            migrationBuilder.InsertData(
+                table: "Players",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Tom" });
+
+            migrationBuilder.InsertData(
+                table: "Players",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Jon" });
+
+            migrationBuilder.InsertData(
+                table: "GamePlaySessions",
+                columns: new[] { "Id", "Date", "GameId" },
+                values: new object[] { 1, new DateTimeOffset(new DateTime(2018, 10, 30, 8, 26, 56, 108, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 1 });
+
+            migrationBuilder.InsertData(
+                table: "Ratings",
+                columns: new[] { "GamePlaySessionId", "PlayerId", "Rating" },
+                values: new object[] { 1, 1, 4 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GameCategoryGameEntry_BoardGameEntryId",
@@ -141,11 +165,6 @@ namespace BoardGame.Api.Migrations
                 name: "IX_GamePlaySessions_GameId",
                 table: "GamePlaySessions",
                 column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ratings_GamePlaySessionId",
-                table: "Ratings",
-                column: "GamePlaySessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_PlayerId",

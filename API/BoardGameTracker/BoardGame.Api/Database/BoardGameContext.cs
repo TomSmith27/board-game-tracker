@@ -3,6 +3,7 @@
 namespace BoardGame.Api.Database
 {
     using Models;
+    using System;
 
     public class BoardGameContext : DbContext
     {
@@ -29,7 +30,39 @@ namespace BoardGame.Api.Database
 
             modelBuilder.Entity<BoardGameCategory>().HasMany(b => b.Games);
 
-            modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GamePlayerSessionId, p.PlayerId });
+            modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GamePlaySessionId, p.PlayerId });
+
+            modelBuilder.Entity<BoardGameEntry>().HasData(new BoardGameEntry()
+            {
+                Id = 1,
+                Name = "Azul"
+            });
+
+            modelBuilder.Entity<GamePlaySession>().HasData(new GamePlaySession()
+            {
+                Id = 1,
+                Date = DateTimeOffset.Now,
+                GameId = 1,
+            });
+
+            modelBuilder.Entity<PlayerRating>().HasData(
+                new PlayerRating()
+                {
+                    GamePlaySessionId = 1,
+                    PlayerId = 1,
+                    Rating = 4,
+                }
+            );
+
+            modelBuilder.Entity<Player>().HasData(new Player()
+            {
+                Id = 1,
+                Name = "Tom"
+            }, new Player()
+            {
+                Id = 2,
+                Name = "Jon"
+            });
         }
     }
 }
