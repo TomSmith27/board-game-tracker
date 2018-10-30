@@ -134,7 +134,7 @@ namespace BoardGame.Api.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("PlayerRating");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.GameCategoryGameEntry", b =>

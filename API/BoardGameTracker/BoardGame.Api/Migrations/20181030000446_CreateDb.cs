@@ -107,7 +107,7 @@ namespace BoardGame.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlayerRating",
+                name: "Ratings",
                 columns: table => new
                 {
                     PlayerId = table.Column<int>(nullable: false),
@@ -117,15 +117,15 @@ namespace BoardGame.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayerRating", x => new { x.GamePlayerSessionId, x.PlayerId });
+                    table.PrimaryKey("PK_Ratings", x => new { x.GamePlayerSessionId, x.PlayerId });
                     table.ForeignKey(
-                        name: "FK_PlayerRating_GamePlaySessions_GamePlaySessionId",
+                        name: "FK_Ratings_GamePlaySessions_GamePlaySessionId",
                         column: x => x.GamePlaySessionId,
                         principalTable: "GamePlaySessions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PlayerRating_Players_PlayerId",
+                        name: "FK_Ratings_Players_PlayerId",
                         column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id",
@@ -143,13 +143,13 @@ namespace BoardGame.Api.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerRating_GamePlaySessionId",
-                table: "PlayerRating",
+                name: "IX_Ratings_GamePlaySessionId",
+                table: "Ratings",
                 column: "GamePlaySessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlayerRating_PlayerId",
-                table: "PlayerRating",
+                name: "IX_Ratings_PlayerId",
+                table: "Ratings",
                 column: "PlayerId");
         }
 
@@ -159,7 +159,7 @@ namespace BoardGame.Api.Migrations
                 name: "GameCategoryGameEntry");
 
             migrationBuilder.DropTable(
-                name: "PlayerRating");
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Categories");

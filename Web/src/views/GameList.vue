@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>GameList</h1>
+        <h1>Imported Games</h1>
         <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex :key="game.objectId" v-for="game in games" xs4>

@@ -11,7 +11,7 @@
           <v-card>
             <v-card-title primary-title>
               <div>
-                <h3 class="headline mb-0">{{game.name[0].text}}</h3>
+                <h3 class="headline mb-0">{{game.name}}</h3>
               </div>
             </v-card-title>
             <v-card-text>
@@ -20,13 +20,14 @@
                   <v-icon>event</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                  <v-list-tile-title>{{ game.yearpublished }}</v-list-tile-title>
+                  <v-list-tile-title>{{ game.yearPublished }}</v-list-tile-title>
                   <v-list-tile-sub-title>Year Published</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </v-card-text>
             <v-card-actions>
-              <v-btn flat @click="importGame(game.objectid)">Import</v-btn>
+              <v-btn v-if="!game.imported" block color="primary" @click="importGame(game.objectId)">Import</v-btn>
+              <v-btn v-else block color="secondary" @click="importGame(game.objectId)">ReImport</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -52,15 +53,15 @@ export default Vue.extend({
   }),
   methods: {
     slowSearch: _.debounce(async function(this: any) {
-      this.search();
+      this.fastSearch();
     }, 2000),
     async fastSearch() {
       this.searching = true;
       try {
         const result = await boardGameService.get(
-          `bgg/search?search=${this.search}`
+          `games/search-import?search=${this.search}`
         );
-        this.boardGames = result.data.boardgames;
+        this.boardGames = result.data;
       } catch (e) {
         if (e.message === 'Network Error') {
           this.searchError = 'Network Error';

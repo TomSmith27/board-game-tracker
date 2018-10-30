@@ -1,5 +1,6 @@
 ﻿namespace BoardGame.Api.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Database;
@@ -21,11 +22,18 @@
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            return this.Ok(await this.db.GamePlaySessions.ToListAsync());
+            var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
+                .Include(g => g.PlayerRatings).ToList();
+            List<GamePlaySessionDto> gamePlaySessionDtos = new List<GamePlaySessionDto>();
+            foreach (var game in gamePlaySessions)
+            {
+                gamePlaySessionDtos.Add(new GamePlaySessionDto(game));
+            }
+            return this.Ok(gamePlaySessionDtos);
         }
 
         [HttpPost("")]
-        public IActionResult Create(GamePlaySessionDto gameSession)
+        public IActionResult Create(CreateGamePlaySessionDto gameSession)
         {
             var players = db.Players.ToDictionary(p => p.Id);
             foreach (var player in gameSession.Players)

@@ -12,6 +12,7 @@ namespace BoardGame.Api.Database
         public DbSet<BoardGameCategory> Categories { get; set; }
         public DbSet<GamePlaySession> GamePlaySessions { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerRating> Ratings { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

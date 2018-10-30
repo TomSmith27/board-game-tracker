@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import Vuetify from 'vuetify';
+import moment from 'moment';
 
 Vue.use(Vuetify, {
   theme: {
@@ -16,6 +17,10 @@ Vue.use(Vuetify, {
   }
 });
 Vue.config.productionTip = false;
+
+Vue.filter('date', (value: string) => {
+  return moment(value).format('DD/MM/YYYY');
+});
 
 new Vue({
   router,
