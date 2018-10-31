@@ -8,7 +8,7 @@
                 <template slot="items" slot-scope="props">
                     <td> {{ props.item.playerName }} </td>
                     <td>
-                        <star-rating :read-only="true" :star-size="25" v-model="props.item.rating"></star-rating>
+                        <star-rating :star-size="25" @rating-selected="ratingChanged(props.item.rating, props.item.playerId)" v-model="props.item.rating"></star-rating>
                     </td>
                 </template>
             </v-data-table>
@@ -45,6 +45,15 @@ export default Vue.extend({
     ],
     session: {}
   }),
+  methods: {
+    async ratingChanged(rating: number, playerId: number) {
+      try {
+        await boardGameService.post(`rating/gameplay-session/${this.id}/player/${playerId}`, {
+          rating: rating
+        });
+      } catch (error) {}
+    }
+  },
   async mounted() {
     this.loading = true;
     try {
