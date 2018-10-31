@@ -53,16 +53,22 @@ namespace BoardGame.Api.Database
                     Rating = 4,
                 }
             );
+            Player adminAccount;
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                adminAccount = new Player()
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    Username = "admin",
+                    PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes("password")),
+                    PasswordSalt = hmac.Key
+                };
 
-            modelBuilder.Entity<Player>().HasData(new Player()
-            {
-                Id = 1,
-                Name = "Tom"
-            }, new Player()
-            {
-                Id = 2,
-                Name = "Jon"
-            });
+
+                modelBuilder.Entity<Player>().HasData(adminAccount);
+
+            }
         }
     }
 }

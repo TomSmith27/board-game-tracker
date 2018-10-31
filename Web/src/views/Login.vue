@@ -46,18 +46,22 @@ import { boardGameService } from '@/axios-service';
 export default Vue.extend({
   name: 'Login',
   data: () => ({
+    loading: false,
     username: '',
     password: ''
   }),
   methods: {
     async signIn() {
+      this.loading = true;
       try {
         const token = (await boardGameService.post('Users/authenticate', {
           username: this.username,
           password: this.password
         })).data;
         localStorage.setItem('user', token);
+        this.$router.push(this.$route.query.redirect);
       } catch (error) {}
+      this.loading = false;
     }
   }
 });
