@@ -5,10 +5,11 @@ import GameList from './views/GameList.vue';
 import GameSessionList from './views/GameSessionList.vue';
 import GameSessionDetail from './views/GameSessionDetails.vue';
 import GameSessionCreate from './views/GameSessionCreate.vue';
+import LoginPage from './views/Login.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -38,6 +39,25 @@ export default new Router({
       name: 'game-session-detail',
       component: GameSessionDetail,
       props: true
+    },
+    {
+      path: '/login',
+      component: LoginPage
     }
   ]
+});
+
+export default router;
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
 });

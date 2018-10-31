@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGame.Api.Migrations
 {
     [DbContext(typeof(BoardGameContext))]
-    [Migration("20181030082656_CreateDb")]
+    [Migration("20181031152824_CreateDb")]
     partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,7 +111,7 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("GamePlaySessions");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 10, 30, 8, 26, 56, 108, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
+                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 10, 31, 15, 28, 23, 972, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
                     );
                 });
 
@@ -122,6 +122,12 @@ namespace BoardGame.Api.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
+
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
+
+                    b.Property<string>("Username");
 
                     b.HasKey("Id");
 

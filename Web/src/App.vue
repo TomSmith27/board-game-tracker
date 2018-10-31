@@ -35,6 +35,10 @@
     <v-toolbar color="primary" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Board Games</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat @click="logout">Logout</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -59,6 +63,12 @@ export default Vue.extend({
   }),
   props: {
     source: String
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('user');
+      window.location.reload();
+    }
   }
 });
 </script>

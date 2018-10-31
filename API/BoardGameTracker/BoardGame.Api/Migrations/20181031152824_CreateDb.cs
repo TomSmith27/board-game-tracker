@@ -55,7 +55,10 @@ namespace BoardGame.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -138,18 +141,18 @@ namespace BoardGame.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Players",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Tom" });
+                columns: new[] { "Id", "Name", "PasswordHash", "PasswordSalt", "Username" },
+                values: new object[] { 1, "Tom", null, null, null });
 
             migrationBuilder.InsertData(
                 table: "Players",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Jon" });
+                columns: new[] { "Id", "Name", "PasswordHash", "PasswordSalt", "Username" },
+                values: new object[] { 2, "Jon", null, null, null });
 
             migrationBuilder.InsertData(
                 table: "GamePlaySessions",
                 columns: new[] { "Id", "Date", "GameId" },
-                values: new object[] { 1, new DateTimeOffset(new DateTime(2018, 10, 30, 8, 26, 56, 108, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 1 });
+                values: new object[] { 1, new DateTimeOffset(new DateTime(2018, 10, 31, 15, 28, 23, 972, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), 1 });
 
             migrationBuilder.InsertData(
                 table: "Ratings",
