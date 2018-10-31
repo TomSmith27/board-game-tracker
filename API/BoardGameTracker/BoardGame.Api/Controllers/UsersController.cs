@@ -54,7 +54,7 @@
             var tokenString = tokenHandler.WriteToken(token);
 
             // return basic user info (without password) and token to store client side
-            return Ok(tokenString);
+            return Ok(new AuthenticatedPlayerDto(user, tokenString));
         }
 
         [AllowAnonymous]

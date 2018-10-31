@@ -32,7 +32,9 @@
                             </v-layout>
                         </v-container>
                         <v-card-actions>
-                            <v-btn @click="deleteGame(game.id)" color="error">Delete</v-btn>
+                            <v-btn small absolute top right fab @click="deleteGame(game.id)" color="error">
+                                <v-icon>delete</v-icon>
+                            </v-btn>
                             <v-btn :to="{name : 'game-session-create', params : {gameId : game.id}}" color="primary">Create Session</v-btn>
                             <v-btn :href="`https://boardgamegeek.com/boardgame/${game.objectId}`" color="secondary">
                                 BGG Link

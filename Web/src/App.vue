@@ -37,7 +37,7 @@
       <v-toolbar-title>Board Games</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y="offset-y">
-        <v-btn flat="flat" slot="activator" small="small">John Doe
+        <v-btn flat="flat" slot="activator" small="small">{{userName}}
           <v-icon>keyboard_arrow_down</v-icon>
         </v-btn>
         <v-list>
@@ -81,8 +81,13 @@ export default Vue.extend({
   },
   methods: {
     logout() {
-      localStorage.removeItem('user');
-      window.location.reload();
+      this.$store.commit('logout');
+      this.$router.push({ name: 'login' });
+    }
+  },
+  computed: {
+    userName(): string {
+      return this.$store.state.user.name;
     }
   }
 });

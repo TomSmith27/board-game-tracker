@@ -2,9 +2,12 @@
     <v-container>
         <v-layout row v-if="error">
             <v-flex xs12 sm6 offset-sm3>
-                <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+                <v-alert :value="error" type="error">
+                    {{error}}
+                </v-alert>
             </v-flex>
         </v-layout>
+        {{error}}
         <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
                 <v-card>
@@ -23,7 +26,7 @@
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex xs12>
-                                        <v-btn type="submit" :disabled="loading" :loading="loading">
+                                        <v-btn type="submit" :disabled="loading" :loading="loading" color="primary">
                                             Sign in
                                             <span slot="loader" class="custom-loader">
                                                 <v-icon light>cached</v-icon>
@@ -43,9 +46,11 @@
 <script lang="ts">
 import Vue from 'vue';
 import { boardGameService } from '@/axios-service';
+import { User } from '../models/User';
 export default Vue.extend({
   name: 'Login',
   data: () => ({
+    error: '',
     loading: false,
     username: '',
     password: ''
@@ -54,13 +59,24 @@ export default Vue.extend({
     async signIn() {
       this.loading = true;
       try {
-        const token = (await boardGameService.post('Users/authenticate', {
+        const authPlayer = (await boardGameService.post('Users/authenticate', {
           username: this.username,
           password: this.password
         })).data;
-        localStorage.setItem('user', token);
-        this.$router.push(this.$route.query.redirect);
-      } catch (error) {}
+        const user: User = {
+          id: authPlayer.id,
+          name: authPlayer.name,
+          token: authPlayer.token
+        };
+        this.$store.commit('setUser', user);
+        if (this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect);
+        } else {
+          this.$router.push({ name: 'home' });
+        }
+      } catch (error) {
+        this.error = error;
+      }
       this.loading = false;
     }
   }
