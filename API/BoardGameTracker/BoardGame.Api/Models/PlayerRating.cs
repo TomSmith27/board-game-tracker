@@ -6,8 +6,8 @@
     {
         public Player Player { get; set; }
         public int PlayerId { get; set; }
-        public GamePlaySession GamePlaySession { get; set; }
-        public int GamePlaySessionId { get; set; }
+        public BoardGameEntry Game { get; set; }
+        public int GameId { get; set; }
         [Range(0, 5)]
         public int? Rating { get; set; }
     }

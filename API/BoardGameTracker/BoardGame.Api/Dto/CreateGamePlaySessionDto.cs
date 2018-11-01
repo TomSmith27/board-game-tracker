@@ -1,9 +1,9 @@
 ﻿namespace BoardGame.Api.Dto
 {
+    using Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Models;
 
     public class CreateGamePlaySessionDto
     {
@@ -17,7 +17,7 @@
             {
                 GameId = this.GameId,
                 Date = this.Date,
-                PlayerRatings = this.Players.Select(p => new PlayerRating()
+                Players = this.Players.Select(p => new GamePlaySessionPlayer()
                 {
                     PlayerId = p
                 }).ToList()

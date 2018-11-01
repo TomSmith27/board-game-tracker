@@ -33,6 +33,10 @@
     <Compile Remove="Migrations\20181030082005_SeedData.Designer.cs" />
     <Compile Remove="Migrations\20181030082656_CreateDb.cs" />
     <Compile Remove="Migrations\20181030082656_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181031152824_CreateDb.cs" />
+    <Compile Remove="Migrations\20181031152824_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20181031205203_SeedData.cs" />
+    <Compile Remove="Migrations\20181031205203_SeedData.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

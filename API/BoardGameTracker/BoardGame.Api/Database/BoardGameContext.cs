@@ -25,12 +25,15 @@ namespace BoardGame.Api.Database
             modelBuilder.Entity<GameCategoryGameEntry>()
                 .HasKey(t => new { t.BoardGameCategoryId, t.BoardGameEntryId });
 
+            modelBuilder.Entity<GamePlaySessionPlayer>()
+                .HasKey(t => new { t.GamePlaySessionId, t.PlayerId });
+
             modelBuilder.Entity<BoardGameEntry>()
                 .HasMany(nv => nv.Categories);
 
             modelBuilder.Entity<BoardGameCategory>().HasMany(b => b.Games);
 
-            modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GamePlaySessionId, p.PlayerId });
+            modelBuilder.Entity<PlayerRating>().HasKey(p => new { p.GameId, p.PlayerId });
 
             modelBuilder.Entity<BoardGameEntry>().HasData(new BoardGameEntry()
             {
@@ -48,7 +51,7 @@ namespace BoardGame.Api.Database
             modelBuilder.Entity<PlayerRating>().HasData(
                 new PlayerRating()
                 {
-                    GamePlaySessionId = 1,
+                    GameId = 1,
                     PlayerId = 1,
                     Rating = 4,
                 }
