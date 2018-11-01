@@ -10,14 +10,16 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace BoardGame.Api
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
     using Services;
     using Settings;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
 
     public class Startup
     {
@@ -31,7 +33,14 @@ namespace BoardGame.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(o =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                o.Filters.Add(new AuthorizeFilter(policy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()

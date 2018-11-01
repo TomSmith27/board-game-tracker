@@ -14,7 +14,6 @@
     using Services;
     using Settings;
 
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
