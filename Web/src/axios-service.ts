@@ -1,5 +1,5 @@
 import axios from 'axios';
-let baseURL = 'https://192.168.0.18:5001';
+let baseURL = 'http://localhost:44331';
 
 console.log((window as any).uri);
 if ((window as any).uri) {
