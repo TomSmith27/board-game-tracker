@@ -11,6 +11,7 @@ using Swashbuckle.AspNetCore.Swagger;
 namespace BoardGame.Api
 {
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ namespace BoardGame.Api
     using Services;
     using Settings;
     using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -120,6 +126,7 @@ namespace BoardGame.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
+            app.UseStaticFiles();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -150,7 +157,19 @@ namespace BoardGame.Api
             app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            //handle client side routes
+            app.Run(async (context) =>
+            {
+                context.Response.Redirect("/app");
+                await Task.CompletedTask;
+            });
         }
     }
 }

@@ -109,8 +109,21 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("GamePlaySessions");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 10, 31, 20, 52, 2, 577, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
+                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 11, 1, 22, 56, 26, 257, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
                     );
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySessionPlayer", b =>
+                {
+                    b.Property<int>("GamePlaySessionId");
+
+                    b.Property<int>("PlayerId");
+
+                    b.HasKey("GamePlaySessionId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("GamePlaySessionPlayer");
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.Player", b =>
@@ -132,26 +145,26 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("Players");
 
                     b.HasData(
-                        new { Id = 1, Name = "Admin", PasswordHash = new byte[] { 124, 133, 243, 219, 142, 150, 62, 67, 159, 187, 171, 225, 61, 223, 244, 14, 255, 248, 8, 36, 186, 118, 217, 18, 172, 155, 26, 30, 9, 157, 104, 183, 16, 206, 1, 61, 159, 109, 251, 226, 48, 240, 185, 200, 139, 252, 206, 228, 144, 219, 178, 177, 160, 50, 234, 216, 4, 79, 1, 111, 59, 160, 186, 215 }, PasswordSalt = new byte[] { 232, 63, 144, 104, 176, 185, 68, 163, 72, 160, 54, 111, 255, 14, 31, 37, 154, 68, 63, 197, 234, 1, 170, 207, 38, 4, 65, 198, 85, 219, 251, 128, 24, 218, 53, 21, 68, 150, 11, 239, 49, 157, 147, 174, 245, 247, 134, 233, 169, 228, 1, 222, 214, 234, 156, 64, 232, 28, 72, 28, 145, 21, 39, 159, 111, 156, 125, 103, 114, 39, 147, 54, 253, 104, 70, 121, 124, 0, 101, 215, 219, 10, 154, 205, 155, 179, 2, 123, 26, 59, 155, 76, 12, 99, 40, 78, 177, 9, 80, 24, 49, 135, 9, 79, 43, 206, 219, 134, 153, 241, 175, 64, 131, 167, 111, 222, 53, 36, 123, 105, 138, 235, 198, 10, 62, 188, 115, 29 }, Username = "admin" }
+                        new { Id = 1, Name = "Admin", PasswordHash = new byte[] { 122, 56, 172, 190, 229, 242, 242, 172, 198, 224, 109, 68, 21, 2, 180, 30, 215, 107, 248, 216, 77, 184, 101, 75, 32, 227, 26, 193, 246, 2, 156, 25, 138, 180, 199, 185, 124, 114, 54, 101, 60, 77, 188, 69, 97, 174, 116, 179, 170, 49, 106, 28, 135, 160, 132, 160, 77, 135, 76, 251, 229, 181, 67, 235 }, PasswordSalt = new byte[] { 214, 158, 196, 48, 174, 238, 177, 112, 255, 35, 81, 123, 255, 74, 83, 36, 1, 165, 136, 124, 246, 58, 14, 229, 168, 147, 118, 187, 91, 215, 225, 210, 205, 89, 152, 22, 24, 219, 90, 227, 47, 244, 14, 163, 152, 131, 116, 154, 71, 130, 187, 194, 115, 105, 113, 123, 19, 23, 205, 248, 91, 96, 246, 105, 50, 182, 20, 198, 31, 232, 43, 179, 183, 59, 72, 49, 204, 233, 172, 48, 63, 202, 246, 43, 76, 242, 130, 142, 74, 123, 8, 37, 147, 141, 97, 19, 14, 120, 201, 209, 106, 98, 227, 77, 51, 70, 17, 85, 191, 134, 211, 100, 233, 42, 70, 217, 133, 200, 16, 100, 96, 142, 211, 9, 178, 175, 219, 251 }, Username = "admin" }
                     );
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
                 {
-                    b.Property<int>("GamePlaySessionId");
+                    b.Property<int>("GameId");
 
                     b.Property<int>("PlayerId");
 
                     b.Property<int?>("Rating");
 
-                    b.HasKey("GamePlaySessionId", "PlayerId");
+                    b.HasKey("GameId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 
                     b.ToTable("Ratings");
 
                     b.HasData(
-                        new { GamePlaySessionId = 1, PlayerId = 1, Rating = 4 }
+                        new { GameId = 1, PlayerId = 1, Rating = 4 }
                     );
                 });
 
@@ -176,11 +189,24 @@ namespace BoardGame.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySessionPlayer", b =>
                 {
                     b.HasOne("BoardGame.Api.Models.GamePlaySession", "GamePlaySession")
-                        .WithMany("PlayerRatings")
+                        .WithMany("Players")
                         .HasForeignKey("GamePlaySessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BoardGame.Api.Models.Player", "Player")
+                        .WithMany("GamePlaySessions")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+                {
+                    b.HasOne("BoardGame.Api.Models.BoardGameEntry", "Game")
+                        .WithMany("PlayerRatings")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BoardGame.Api.Models.Player", "Player")

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGame.Api.Migrations
 {
     [DbContext(typeof(BoardGameContext))]
-    [Migration("20181031152824_CreateDb")]
+    [Migration("20181101225626_CreateDb")]
     partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,8 +111,21 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("GamePlaySessions");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 10, 31, 15, 28, 23, 972, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
+                        new { Id = 1, Date = new DateTimeOffset(new DateTime(2018, 11, 1, 22, 56, 26, 257, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), GameId = 1 }
                     );
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySessionPlayer", b =>
+                {
+                    b.Property<int>("GamePlaySessionId");
+
+                    b.Property<int>("PlayerId");
+
+                    b.HasKey("GamePlaySessionId", "PlayerId");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("GamePlaySessionPlayer");
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.Player", b =>
@@ -134,27 +147,26 @@ namespace BoardGame.Api.Migrations
                     b.ToTable("Players");
 
                     b.HasData(
-                        new { Id = 1, Name = "Tom" },
-                        new { Id = 2, Name = "Jon" }
+                        new { Id = 1, Name = "Admin", PasswordHash = new byte[] { 122, 56, 172, 190, 229, 242, 242, 172, 198, 224, 109, 68, 21, 2, 180, 30, 215, 107, 248, 216, 77, 184, 101, 75, 32, 227, 26, 193, 246, 2, 156, 25, 138, 180, 199, 185, 124, 114, 54, 101, 60, 77, 188, 69, 97, 174, 116, 179, 170, 49, 106, 28, 135, 160, 132, 160, 77, 135, 76, 251, 229, 181, 67, 235 }, PasswordSalt = new byte[] { 214, 158, 196, 48, 174, 238, 177, 112, 255, 35, 81, 123, 255, 74, 83, 36, 1, 165, 136, 124, 246, 58, 14, 229, 168, 147, 118, 187, 91, 215, 225, 210, 205, 89, 152, 22, 24, 219, 90, 227, 47, 244, 14, 163, 152, 131, 116, 154, 71, 130, 187, 194, 115, 105, 113, 123, 19, 23, 205, 248, 91, 96, 246, 105, 50, 182, 20, 198, 31, 232, 43, 179, 183, 59, 72, 49, 204, 233, 172, 48, 63, 202, 246, 43, 76, 242, 130, 142, 74, 123, 8, 37, 147, 141, 97, 19, 14, 120, 201, 209, 106, 98, 227, 77, 51, 70, 17, 85, 191, 134, 211, 100, 233, 42, 70, 217, 133, 200, 16, 100, 96, 142, 211, 9, 178, 175, 219, 251 }, Username = "admin" }
                     );
                 });
 
             modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
                 {
-                    b.Property<int>("GamePlaySessionId");
+                    b.Property<int>("GameId");
 
                     b.Property<int>("PlayerId");
 
                     b.Property<int?>("Rating");
 
-                    b.HasKey("GamePlaySessionId", "PlayerId");
+                    b.HasKey("GameId", "PlayerId");
 
                     b.HasIndex("PlayerId");
 
                     b.ToTable("Ratings");
 
                     b.HasData(
-                        new { GamePlaySessionId = 1, PlayerId = 1, Rating = 4 }
+                        new { GameId = 1, PlayerId = 1, Rating = 4 }
                     );
                 });
 
@@ -179,11 +191,24 @@ namespace BoardGame.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+            modelBuilder.Entity("BoardGame.Api.Models.GamePlaySessionPlayer", b =>
                 {
                     b.HasOne("BoardGame.Api.Models.GamePlaySession", "GamePlaySession")
-                        .WithMany("PlayerRatings")
+                        .WithMany("Players")
                         .HasForeignKey("GamePlaySessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BoardGame.Api.Models.Player", "Player")
+                        .WithMany("GamePlaySessions")
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BoardGame.Api.Models.PlayerRating", b =>
+                {
+                    b.HasOne("BoardGame.Api.Models.BoardGameEntry", "Game")
+                        .WithMany("PlayerRatings")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BoardGame.Api.Models.Player", "Player")

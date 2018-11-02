@@ -1,12 +1,13 @@
 ﻿namespace BoardGame.Api.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Database;
     using Dto;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [Route("api/game-session")]
     [ApiController]
@@ -22,8 +23,7 @@
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game)
-                .Include(g => g.PlayerRatings).ToList();
+            var gamePlaySessions = this.db.GamePlaySessions.Include(g => g.Game).GroupBy(g => g.Date).OrderByDescending(d => d.Key).ToList();
             List<GamePlaySessionDto> gamePlaySessionDtos = new List<GamePlaySessionDto>();
             foreach (var game in gamePlaySessions)
             {
@@ -37,7 +37,6 @@
         {
             var gamePlaySession = this.db.GamePlaySessions
                 .Include(g => g.Game)
-                .Include(g => g.PlayerRatings).ThenInclude(p => p.Player)
                 .Single(g => g.Id == sessionId);
 
             return this.Ok(new GamePlaySessionDetailsDto(gamePlaySession));
@@ -47,8 +46,19 @@
         public IActionResult Create(CreateGamePlaySessionDto gameSession)
         {
             var players = db.Players.ToDictionary(p => p.Id);
+            var currentRatings = db.Ratings.ToDictionary(r => new Tuple<int, int>(r.GameId, r.PlayerId));
             foreach (var player in gameSession.Players)
             {
+                if(!currentRatings.ContainsKey(new Tuple<int, int>(gameSession.GameId, player)))
+                {
+                    this.db.Ratings.Add(new Models.PlayerRating()
+                    {
+                        GameId = gameSession.GameId,
+                        PlayerId = player,
+                    });
+                }
+
+
                 if (!players.ContainsKey(player))
                 {
                     return this.BadRequest($"No player exists with id {player}");

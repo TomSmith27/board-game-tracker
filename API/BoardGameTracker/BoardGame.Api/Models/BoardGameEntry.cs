@@ -79,6 +79,6 @@
 
         public string BestPlayerCount { get; set; }
 
-
+        public List<PlayerRating> PlayerRatings { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+@{
+    ViewData["Title"] = "Index";
+    var path = env.WebRootFileProvider.GetFileInfo("index.html")?.PhysicalPath;
+    var text = String.Join("", System.IO.File.ReadAllLines(path));
+
+}
+<script>
+            window.uri = '@(Context.Request.IsHttps ? "https" : "http")://@Context.Request.Host'
+</script>
+@Html.Raw(text)

@@ -9,6 +9,7 @@
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public List<GamePlaySessionPlayer> GamePlaySessions { get; set; }
         public List<PlayerRating> Ratings { get; set; }
     }
 }

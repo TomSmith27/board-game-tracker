@@ -6,37 +6,39 @@
         New
       </v-btn>
     </router-link>
-    <template>
-      <v-data-table :headers="headers" :items="gameSessions" hide-actions class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <td>
-            <router-link :to="{name : 'game-session-detail', params : {id : props.item.id}}">{{ props.item.gameName }}</router-link>
 
-          </td>
-          <td>{{ props.item.date | date}}</td>
-          <td>{{ props.item.ratings.length }}</td>
-        </template>
-      </v-data-table>
-    </template>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card :key="game.date" v-for="game in gameSessions">
+          <v-layout>
+            <v-card-title primary-title>
+              <div>
+                <div class="headline">{{game.date | bigDate}}</div>
+              </div>
+            </v-card-title>
+          </v-layout>
+          <v-divider light></v-divider>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { boardGameService } from '@/axios-service';
+import moment from 'moment';
 export default Vue.extend({
   name: 'GameSessionList',
   data: () => ({
-    headers: [
-      {
-        text: 'Game',
-        value: 'game'
-      },
-      { text: 'Date', value: 'date' },
-      { text: 'Num of Players', value: 'players' }
-    ],
     gameSessions: []
   }),
+  filters: {
+    bigDate: (value: string) => {
+      return moment(value).format('Do MMM YYYY');
+    }
+  },
   created() {
     boardGameService.get('game-session').then(response => {
       this.gameSessions = response.data;
